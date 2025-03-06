@@ -3,7 +3,6 @@ import "./page.css";
 import React, { useRef, useState } from "react";
 import { UserOutlined, UnlockOutlined } from "@ant-design/icons";
 import { Input, Button, theme } from "antd";
-import Yzm from "./yzm.tsx";
 export default function App() {
   const [codes, setcodes] = useState("");
   return (
@@ -45,7 +44,6 @@ export default function App() {
               }}
               prefix={<UnlockOutlined />}
             />
-            <Yzm />
           </div>
           <div
             style={{
@@ -68,7 +66,7 @@ export default function App() {
               }
             }}
           >
-            登录
+            注册
           </Button>
         </div>
       </div>
