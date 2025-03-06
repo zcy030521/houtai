@@ -3,7 +3,7 @@ import "./page.css";
 import React from "react";
 import { UserOutlined,UnlockOutlined } from "@ant-design/icons";
 import { Input,Button } from "antd";
-import Yzm from './yzm.tsx';
+import Yzm from './yzm'
 export default function App() {
   return (
     <div className="body" style={{ display: "flex" }}>

@@ -68,7 +68,7 @@ export default function DHLayout({
             transition={{ duration: 0.5 }}
         >
             <Menu
-                style={{ width: 256 }}
+                style={{ width: 256,position:"fixed" }}
                 onClick={onClick}
                 mode="inline"
                 items={items}
