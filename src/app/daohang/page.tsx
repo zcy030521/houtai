@@ -1,3 +1,18 @@
-export default function DH(){
-    return <div>DH</div>
+
+
+
+// import Router from 'next/router';
+
+
+export default function Bookspage({ children }: { children: React.ReactNode }) {
+    
+    
+    return (
+        <>
+           
+            <div>
+                {children}
+            </div>
+        </>
+    );
 }
