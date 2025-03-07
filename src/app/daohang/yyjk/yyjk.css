@@ -20,7 +20,7 @@
     width: 96%;
     height: 380px;
     background-color: aqua;
-    margin-top:15px;
+    margin-top:20px;
     margin-left: 20px;
 }
 .card-1{
@@ -32,7 +32,7 @@
 }
 .left-1-1{
     width: 30%;
-    height: 150px;
+    height: 130px;
     /* background-color: yellowgreen; */
     display: flex;
     align-items: center;
@@ -48,6 +48,29 @@
     width: 70%;
     height: 100px;
     /* background-color: orange; */
+}
+.left-ul{
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.left-li{
+    width: 47%;
+    height: 80px;
+    /* background-color: pink; */
+    line-height: 80px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+}
+.left-ul li.left-li:hover span {
+    color: red; /* 鼠标悬停时字体颜色变为红色，可根据需要修改 */
+  }
+
+.left-ul li.left-li {
+cursor: pointer; /* 鼠标滑入时变为小手图标 */
 }
 .peration-right{
     width: 38%;
