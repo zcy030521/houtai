@@ -1,0 +1,81 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.operation-header{
+    margin-left:256px;
+    width: 90vw;
+    height: 100%;
+    background-color: #F7F7F7;
+    display: flex;
+    justify-content: space-between;
+}
+.peration-left{
+    width: 60%;
+    height: 100%;
+    background-color: yellowgreen;
+    border:1px solid white;
+}
+.left-1{
+    width: 96%;
+    height: 380px;
+    background-color: aqua;
+    margin-top:20px;
+    margin-left: 20px;
+}
+.card-1{
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.left-1-1{
+    width: 30%;
+    height: 130px;
+    /* background-color: yellowgreen; */
+    display: flex;
+    align-items: center;
+}
+.left-1-2{
+    width: 30%;
+    height: 100px;
+    text-align: center;
+    /* background-color: green; */
+    border:1px solid white;
+}
+.left-1-3{
+    width: 70%;
+    height: 100px;
+    /* background-color: orange; */
+}
+.left-ul{
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.left-li{
+    width: 47%;
+    height: 80px;
+    /* background-color: pink; */
+    line-height: 80px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+}
+.left-ul li.left-li:hover span {
+    color: red; /* 鼠标悬停时字体颜色变为红色，可根据需要修改 */
+  }
+
+.left-ul li.left-li {
+cursor: pointer; /* 鼠标滑入时变为小手图标 */
+}
+.peration-right{
+    width: 38%;
+    height: 100%;
+    background-color: red;
+}
+
+  
