@@ -6,7 +6,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body style={{backgroundColor:'black'}}>
         <div style={{display:"flex"}}>
         {children}
         </div>
