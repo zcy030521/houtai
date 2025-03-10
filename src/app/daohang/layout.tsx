@@ -24,28 +24,33 @@ export default function DHLayout({ children }: { children: React.ReactNode }) {
   const [routerlist, setRouterlist] = useState<Item[]>([]);
   type MenuItem = Required<MenuProps>["items"][number];
   const routelist = async () => {
-    await fetch("http://localhost:3100/ly").then((res) => {
-      res.json().then((data) => {
-        setRouterlist(data.result);
-        // console.log(data.result);
-      });
-    });
+    const res= await fetch("http://localhost:3100/list",{
+      method:"GET",
+      headers:{
+        "Content-Type":"application/json",
+        "Authorization": "Bearer " + localStorage.getItem("token")
+      }
+    })
+    const data = await res.json()
+    console.log(data);
+    
+
   };
   const items: MenuItem[] = [
-    ...routerlist
-      .filter((i) => i.level == 1)
-      .map((item) => ({
-        key: item.key,
-        label: item.label,
-        children: [
-          ...routerlist
-            .filter((i) => i.p_id?._id == item._id)
-            .map((item) => ({
-              key: item.key,
-              label: item.label,
-            })),
-        ],
-      })),
+    // ...routerlist
+    //   .filter((i) => i.level == 1)
+    //   .map((item) => ({
+    //     key: item.key,
+    //     label: item.label,
+    //     children: [
+    //       ...routerlist
+    //         .filter((i) => i.p_id?._id == item._id)
+    //         .map((item) => ({
+    //           key: item.key,
+    //           label: item.label,
+    //         })),
+    //     ],
+    //   })),
   ];
   const onClick: MenuProps["onClick"] = (e) => {
     Router.push(`/${e.key}`);
@@ -72,6 +77,7 @@ export default function DHLayout({ children }: { children: React.ReactNode }) {
           items={items}
           defaultOpenKeys={["daohang"]}
         />
+        111
       </motion.div>
       <div>{children}</div>
     </div>
