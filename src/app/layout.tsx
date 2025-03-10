@@ -1,4 +1,3 @@
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -6,11 +5,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body style={{backgroundColor:'black'}}>
-        <div style={{display:"flex"}}>
-        {children}
-        </div>
-      </body>
+      <body style={{ width: "100vw", height: "100vh" }}>{children}</body>
     </html>
   );
 }
