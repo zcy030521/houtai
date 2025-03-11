@@ -1,17 +1,21 @@
  "use client";
 import "./page.css";
 import '@ant-design/v5-patch-for-react-19';
-import React, { useRef, useState,useEffect } from "react";
+import React, { useState,useEffect } from "react";
 import { UserOutlined, UnlockOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
-import { Input, Button } from "antd";
+import { Input, Button,message  } from "antd";
 import Yzm from "./yzm";
 export default function App() {
   const [codes, setcodes] = useState<string>("");
   const [user, setsuer] = useState<string>("");
   const [pwd, setpwd] = useState<string>("");
-
   const router = useRouter();
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const info = (name:string) => {
+    messageApi.info(name);
+  };
   useEffect(()=>{
 
   },[codes,user,pwd])
@@ -61,7 +65,7 @@ export default function App() {
             <Input
               placeholder="验证码"
               onInput={(e) => {
-                setcodes((e.target as any).value);
+                setcodes((e.target as HTMLInputElement).value);
               }}
               prefix={<UnlockOutlined />}
             />
@@ -96,16 +100,23 @@ export default function App() {
               
               const data = await res.json();
               console.log(data);
-              
+              if(data.code !==200 ){
+                info(data.msg);
+              }
               if (data.token) {
                 localStorage.setItem("token", data.token);
-                router.push("/daohang");
+                if(localStorage.getItem("code") === codes){
+                  router.push("/daohang");
+                }else{
+                  info("验证码错误")
+                }
               }
               
             }}
           >
             登录
           </Button>
+          {contextHolder}
         </div>
       </div>
     </div>
