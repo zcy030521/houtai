@@ -5,6 +5,7 @@ import { Menu } from "antd";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { motion } from "framer-motion";
+import './page.css'
 interface Permission {
   _id: string;           
   key: string;           

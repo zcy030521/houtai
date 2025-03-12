@@ -9,7 +9,7 @@ import Yzm from "./yzm";
 export default function App() {
   const [codes, setcodes] = useState<string>("");
   const [user, setsuer] = useState<string>("");
-  const [pwd, setpwd] = useState<string>("");
+  const [password, setpassword] = useState<string>("");
   const router = useRouter();
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -18,7 +18,7 @@ export default function App() {
   };
   useEffect(()=>{
 
-  },[codes,user,pwd])
+  },[codes,user,password])
   return (
     <div className="body" style={{ display: "flex" }}>
       <div className="right">
@@ -58,7 +58,7 @@ export default function App() {
             type="password"
             prefix={<UnlockOutlined  />}
             onInput={(e)=>{
-              setpwd((e.target as HTMLInputElement).value);
+              setpassword((e.target as HTMLInputElement).value);
             }}
           />
           <div style={{ display: "flex", height: "40px" }}>
@@ -94,7 +94,7 @@ export default function App() {
                 },
                 body: JSON.stringify({
                   user: user,
-                  password: pwd
+                  password: password
                 })
               });
               
