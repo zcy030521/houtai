@@ -1,9 +1,9 @@
 "use client";
 import "./page.css";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { UserOutlined, UnlockOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
-import { Input, Button, theme } from "antd";
+import { Input, Button } from "antd";
 import Yzm from "./yzm.tsx";
 import axios from "../../instannces/axios";
 export default function App() {
@@ -50,13 +50,16 @@ export default function App() {
           <Input
             placeholder="密码"
             type="password"
+            onInput={(e) => {
+              setpwd((e.target as HTMLInputElement).value);
+            }}
             prefix={<UnlockOutlined />}
           />
           <div style={{ display: "flex", height: "40px" }}>
             <Input
               placeholder="验证码"
               onInput={(e) => {
-                setcodes((e.target as any).value);
+                setcodes((e.target as HTMLInputElement).value);
               }}
               prefix={<UnlockOutlined />}
             />

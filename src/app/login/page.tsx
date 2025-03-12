@@ -1,11 +1,12 @@
- "use client";
+"use client";
 import "./page.css";
 import '@ant-design/v5-patch-for-react-19';
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { UserOutlined, UnlockOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
-import { Input, Button,message  } from "antd";
+import { Input, Button, message } from "antd";
 import Yzm from "./yzm";
+import fetch from "@/instannces/fetch"
 export default function App() {
   const [codes, setcodes] = useState<string>("");
   const [user, setsuer] = useState<string>("");
@@ -13,10 +14,10 @@ export default function App() {
   const router = useRouter();
   const [messageApi, contextHolder] = message.useMessage();
 
-  const info = (name:string) => {
+  const info = (name: string) => {
     messageApi.info(name);
   };
-  useEffect(()=>{
+  useEffect(() => {
 
   },[codes,user,password])
   return (
@@ -80,13 +81,13 @@ export default function App() {
           >
             <span>
               <input type="radio" name="mima" />
-              记住密码  
+              记住密码
             </span>
-            <span>忘记密码? <a href="/register" style={{color:'black'}}>前往注册</a></span>
+            <span>忘记密码? <a href="/register" style={{ color: 'black' }}>前往注册</a></span>
           </div>
           <Button
             style={{ width: "50%", margin: "0 auto", display: "block" }}
-            onClick={async() => {
+            onClick={async () => {
               const res = await fetch("http://localhost:3100/login", {
                 method: "POST",
                 headers: {
@@ -96,22 +97,19 @@ export default function App() {
                   user: user,
                   password: password
                 })
-              });
-              
-              const data = await res.json();
-              console.log(data);
-              if(data.code !==200 ){
-                info(data.msg);
+              })
+              if (res.code !== 200) {
+                info(res.msg);
               }
-              if (data.token) {
-                localStorage.setItem("token", data.token);
-                if(localStorage.getItem("code") === codes){
+              if (res.token) {
+                localStorage.setItem("token", res.token);
+                if (localStorage.getItem("code") === codes) {
                   router.push("/daohang");
-                }else{
+                } else {
                   info("验证码错误")
                 }
               }
-              
+
             }}
           >
             登录
