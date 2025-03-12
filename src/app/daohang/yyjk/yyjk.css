@@ -13,13 +13,13 @@
 .peration-left{
     width: 60%;
     height: 100%;
-    background-color: yellowgreen;
+    /* background-color: yellowgreen; */
     border:1px solid white;
 }
 .left-1{
     width: 96%;
     height: 380px;
-    background-color: aqua;
+    /* background-color: aqua; */
     margin-top:20px;
     margin-left: 20px;
 }
@@ -73,9 +73,139 @@
 cursor: pointer; /* 鼠标滑入时变为小手图标 */
 }
 .peration-right{
-    width: 38%;
+    width: 40%;
     height: 100%;
-    background-color: red;
+    /* background-color: red; */
+    margin-top: 23px;
 }
 
-  
+.left-center{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.peration-right-box{
+    width: 100px;
+    height: 150px;
+    background-color: #F9F9F9;
+}
+
+.right-1{
+    width: 100%;
+    height: 380px;
+    background-color: aqua;
+
+}
+
+.card-right{
+    width: 100%;
+    height: 250px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.right-1-1{
+    width: 200px;
+    height: 115px;
+    background-color: #F9F9F9;
+    /* background-color: red; */
+    text-align: center;
+    line-height: 115px;
+    font-size: 20px;
+}
+
+.card-right .right-1-1 span {
+    display: inline-block;
+    width: 100%;
+    border-bottom: 1px solid transparent; /* 初始时底部边框为透明 */
+    cursor: pointer; /* 鼠标悬停时显示小手样式 */
+    transition: border-bottom-color 0.3s ease; /* 添加过渡效果，使边框颜色变化更平滑 */
+}
+
+/* 鼠标悬停时的样式 */
+.card-right .right-1-1 span:hover {
+    border-bottom-color: red; /* 鼠标悬停时底部边框变为红色 */
+}
+
+.right-2{
+    width: 100%;
+    height: 565px;
+    /* background-color: aqua; */
+    margin-top: 20px;
+}
+
+
+.right-2-1{
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+}
+.right-2-1-1{
+    width: 250px;
+    /* background-color: red; */
+    display: flex;
+    justify-content: space-between;
+}
+.right-2-2{
+    width: 100%;
+    height: 485px;
+    /* background-color: pink; */
+}
+.right-2-2-1{
+    width: 100%;
+    height: 43px;
+    line-height: 43px;
+    /* background-color: aqua; */
+    margin-top: 6px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.right-a{
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    /* background-color: pink; */
+    text-align: center;
+    border: 1px solid white;
+    border-radius: 50%;
+}
+.right-b{
+    width: 450px;
+    height: 43px;
+    line-height: 43px;
+    /* background-color: red; */
+}
+.right-c{
+    width: 100px;
+    height: 43px;
+    line-height: 43px;
+    /* background-color: yellow; */
+}
+.right-2-3{
+    width: 100%;
+    height: 510px;
+    /* background-color: orange; */
+}
+
+.right-3{
+    width: 100%;
+    height: 590px;
+    /* background-color: aqua; */
+    margin-top: 20px;
+}
+
+.right-3-b{
+    width: 220px;
+    height: 43px;
+    line-height: 43px;
+    /* background-color: red; */
+}
+
+.right-3-d{
+    width: 220px;
+    height: 43px;
+    line-height: 43px;
+    /* background-color: red; */
+}

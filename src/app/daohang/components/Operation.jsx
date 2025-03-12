@@ -35,7 +35,7 @@ const Operation = () => {
         };
     }, []);
 
-    return <div ref={chartRef} style={{ width: '600px', height: '400px' }} />;
+    return <div ref={chartRef} style={{ width: '950px', height: '225px' }} />;
 };
 
 export default Operation;
