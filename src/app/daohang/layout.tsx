@@ -96,7 +96,7 @@ console.log(gits());
   return (
     <div style={{ display: 'flex' }}>
       <motion.div
-        style={{ width: "30%", height: "100vh" }}
+        style={{ width: "300px", height: "100vh" }}
         key={"/daohang"} // 路由变化时重新渲染动画
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
