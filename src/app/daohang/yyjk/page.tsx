@@ -4,8 +4,13 @@ import { Metadata } from 'next'
 import Operation from '../components/Operation'
 import './yyjk.css'
 import { Card } from "antd";
-
+// , DatePicker, Space
 import './iconFont.css'
+
+// const { RangePicker } = DatePicker;
+// const onOk = (value) => {
+//   console.log('onOk: ', value);
+// };
 
 export const metadata: Metadata = {
   title: 'operation'
@@ -133,34 +138,35 @@ export default function page() {
             <Card>
               <div className='left-center'>
                 <p style={{ fontSize: '20px' }}>代办事项</p>
-                <div style={{ fontSize: '20px' }}>
-                  <span>本周</span>
-                  <span>本月</span>
-                  <span>全年</span>
-                  <span>
+                <div className='left-center-1' style={{ fontSize: '20px' }}>
+                  <div className="left-center-1-1">
+                    <span>本周</span>
+                    <span>本月</span>
+                    <span>全年</span>
+                  </div>
+                  <div className="left-center-1-2">
                     {/* <Space direction="vertical" size={12}>
-                      <RangePicker />
-                      <RangePicker showTime />
-                      <RangePicker picker="week" />
-                      <RangePicker picker="month" />
-                      <RangePicker picker="quarter" />
+                      <DatePicker
+                        showTime
+                        onChange={(value, dateString) => {
+                          console.log('Selected Time: ', value);
+                          console.log('Formatted Selected Time: ', dateString);
+                        }}
+                        onOk={onOk}
+                      />
                       <RangePicker
-                        picker="year"
-                        id="yearRangePicker"
-                        // id={{
-                        //   start: 'startInput',
-                        //   end: 'endInput',
-                        // }}
-                        onFocus={(_, info) => {
-                          console.log('Focus:', info.range);
+                        showTime={{
+                          format: 'HH:mm',
                         }}
-                        onBlur={(_, info) => {
-                          console.log('Blur:', info.range);
+                        format="YYYY-MM-DD HH:mm"
+                        onChange={(value, dateString) => {
+                          console.log('Selected Time: ', value);
+                          console.log('Formatted Selected Time: ', dateString);
                         }}
+                        onOk={onOk}
                       />
                     </Space> */}
-
-                  </span>
+                  </div>
                 </div>
               </div>
             </Card>
@@ -177,36 +183,37 @@ export default function page() {
           {/* 左侧盒子4 */}
           <div className="left-1">
             <Card>
-              <div className='left-center'>
+            <div className='left-center'>
                 <p style={{ fontSize: '20px' }}>代办事项</p>
-                <div style={{ fontSize: '20px' }}>
-                  <span>本周</span>
-                  <span>本月</span>
-                  <span>全年</span>
-                  <span>
+                <div className='left-center-1' style={{ fontSize: '20px' }}>
+                  <div className="left-center-1-1">
+                    <span>本周</span>
+                    <span>本月</span>
+                    <span>全年</span>
+                  </div>
+                  <div className="left-center-1-2">
                     {/* <Space direction="vertical" size={12}>
-                      <RangePicker />
-                      <RangePicker showTime />
-                      <RangePicker picker="week" />
-                      <RangePicker picker="month" />
-                      <RangePicker picker="quarter" />
+                      <DatePicker
+                        showTime
+                        onChange={(value, dateString) => {
+                          console.log('Selected Time: ', value);
+                          console.log('Formatted Selected Time: ', dateString);
+                        }}
+                        onOk={onOk}
+                      />
                       <RangePicker
-                        picker="year"
-                        id="yearRangePicker"
-                        // id={{
-                        //   start: 'startInput',
-                        //   end: 'endInput',
-                        // }}
-                        onFocus={(_, info) => {
-                          console.log('Focus:', info.range);
+                        showTime={{
+                          format: 'HH:mm',
                         }}
-                        onBlur={(_, info) => {
-                          console.log('Blur:', info.range);
+                        format="YYYY-MM-DD HH:mm"
+                        onChange={(value, dateString) => {
+                          console.log('Selected Time: ', value);
+                          console.log('Formatted Selected Time: ', dateString);
                         }}
+                        onOk={onOk}
                       />
                     </Space> */}
-
-                  </span>
+                  </div>
                 </div>
               </div>
             </Card>

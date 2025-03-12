@@ -1,0 +1,80 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.yhfx-header {
+    margin-left: 256px;
+    width: 90vw;
+    height: 1650px;
+    background-color: #F7F7F7;
+    border: 1px solid white;
+    /* display: flex;
+    justify-content: space-between; */
+}
+
+.yhfx-header-1 {
+    width: 98%;
+    height: 98%;
+    margin-left: 1%;
+    margin-top: 1%;
+    background-color: white;
+    /* display: flex;
+    justify-content: space-between; */
+}
+
+.box-1 {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.yhfx-header-1-1 {
+    width: 400px;
+    height: 50px;
+    line-height: 50px;
+    /* background-color: aqua; */
+    display: flex;
+    justify-content: space-between;
+}
+
+/* 卡片三 */
+.div-main {
+    width: 100%;
+    height: 235px;
+    /* background-color: red; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.div-main-1 {
+    width: 18%;
+    height: 100px;
+    /* background-color: pink; */
+    border: 1px solid white;
+}
+.div-main-1-1{
+    width: 80%;
+    height: 100%;
+    /* background-color: orange; */
+    margin-left: 10%;
+}
+.div-main-a{
+    /* width: 100%; */
+    /* float: left; */
+}
+
+
+.div-foot {
+    width: 100%;
+    height: 600px;
+    background-color: aqua;
+}
+
+.div-bottom {
+    width: 100%;
+    height: 340px;
+    background-color: yellow;
+}
