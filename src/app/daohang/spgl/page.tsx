@@ -5,7 +5,7 @@ import { Table } from "antd";
 import { Modal, Button,Input,Select } from "antd";
 const { Column, ColumnGroup } = Table;
 import axios from "../../../instannces/axios";
-
+import fetch from '@/instannces/fetch'
 
 const ExcelReader = () => {
   const [excelData, setExcelData] = useState([]);
@@ -13,6 +13,7 @@ const ExcelReader = () => {
   const [searchText, setSearchText] = useState('')
   const [selececate,setSelececate] = useState('')
   const [shopdata,setShopdata] = useState([])
+  const [optionlist,setOptionlist] = useState([])
   const inputRef = useRef(null);
   //获取商品数据
   function getdata (){
@@ -21,8 +22,15 @@ const ExcelReader = () => {
       setShopdata(res.data.data)
     })
   }
+
+  function getcate(){
+    fetch("/catelist").then(res=>{
+      setOptionlist((res as any).data)
+    })
+  }
   useEffect(()=>{
     getdata()
+    getcate()
   },[])
   const columns = [
     {
@@ -49,15 +57,11 @@ const ExcelReader = () => {
       key:"jineng"
     }
   ];
-  
-
-
-  
   return (
     <div>
       <Button type="primary" onClick={()=>{
-        console.log(inputRef.current.files[0]);
-        const file = inputRef.current.files[0]; // 获取文件对象
+        console.log((inputRef.current as any).files[0]);
+        const file = (inputRef.current as any).files[0]; // 获取文件对象
         axios.post("/upload",{file},{
           headers: {
             'Content-Type': 'multipart/form-data'
@@ -74,10 +78,7 @@ const ExcelReader = () => {
       <Select
         style={{ width: 120 }}
         placeholder="请选择商品类型"
-          options={[
-            { value: "女装", label: "女装" },
-            { value: "男装", label: "男装" },
-          ]}
+          options={optionlist}
       ></Select>
       <Button>搜索</Button>
       <Button>添加商品</Button>

@@ -88,7 +88,7 @@ export default function App() {
           <Button
             style={{ width: "50%", margin: "0 auto", display: "block" }}
             onClick={async () => {
-              const res = await fetch("/login", {
+              const res:any = await fetch("/login", {
                 method: "POST",
                 body: JSON.stringify({
                   user: user,

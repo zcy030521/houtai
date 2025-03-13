@@ -4,14 +4,14 @@
 // import Router from 'next/router';
 
 
-export default function Bookspage({ children }: { children: React.ReactNode }) {
+export default function Bookspage() {
     
     
     return (
         <>
            
             <div>
-                {children}
+               
             </div>
         </>
     );
