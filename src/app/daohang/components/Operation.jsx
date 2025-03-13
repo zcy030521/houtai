@@ -14,7 +14,7 @@ const Operation = () => {
             xAxis: {
               type: 'category',
               boundaryGap: false,
-              data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+              data: ['02/01', '02/02', '02/03', '02/04', '02/05', '02/06', '02/07']
             },
             yAxis: {
               type: 'value'

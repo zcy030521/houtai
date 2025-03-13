@@ -1,8 +1,9 @@
 "use client";
 import React from 'react'
 import './yhfx.css'
-import { Card, Tabs } from "antd";
+import { Card, Tabs, Table,Pagination } from "antd";
 import Operation from '../components/Operation2'
+import './iconFonta.css'
 
 const onChange = (key) => {
   console.log(key);
@@ -40,7 +41,152 @@ const items = [
     children: <Operation />,
   },
 ];
-import './iconFonta.css'
+
+const columns = [
+  {
+    title: '时间',
+    dataIndex: 'time',
+    sorter: (a, b) => a.age - b.age,
+  },
+  {
+    title: '新增用户',
+    dataIndex: 'xin',
+    sorter: (a, b) => a.age - b.age,
+  },
+  {
+    title: '日活跃',
+    dataIndex: 'ri',
+    sorter: (a, b) => a.age - b.age,
+  },
+  {
+    title: '周活跃',
+    dataIndex: 'zhou',
+    sorter: (a, b) => a.age - b.age,
+  },
+  {
+    title: '月活跃',
+    dataIndex: 'yue',
+    sorter: (a, b) => a.age - b.age,
+  },
+  {
+    title: '启动次数',
+    dataIndex: 'qi',
+    sorter: (a, b) => a.age - b.age,
+  },
+  {
+    title: '单次平均使用时长',
+    dataIndex: 'dan',
+    sorter: (a, b) => a.age - b.age,
+  },
+ 
+];
+const data = [
+  {
+    key: '1',
+    time:'2021-03-21',
+    xin: 690,
+    ri:'1,292',
+    zhou:'6,274',
+    yue:'19,206',
+    qi:'3041',
+    dan:'0:04:59',
+  },
+  {
+    key: '2',
+    time:'2021-03-20',
+    xin: 500,
+    ri:'1,352',
+    zhou:'6,252',
+    yue:'19,061',
+    qi:'2894',
+    dan:'0:05:02',
+  },
+  {
+    key: '3',
+    time:'2021-03-19',
+    xin: 500,
+    ri:'1,218',
+    zhou:'6,221',
+    yue:'18,914',
+    qi:'2872',
+    dan:'0:05:05',
+  },
+  {
+    key: '4',
+    time:'2021-03-18',
+    xin: 500,
+    ri:'1,301',
+    zhou:'6,205',
+    yue:'18,892',
+    qi:'2841',
+    dan:'0:05:01',
+  },
+
+  // {
+  //   key: '5',
+  //   time:'2021-03-18',
+  //   xin: 500,
+  //   ri:'1,301',
+  //   zhou:'6,205',
+  //   yue:'18,892',
+  //   qi:'2841',
+  //   dan:'0:05:01',
+  // },
+  // {
+  //   key: '6',
+  //   time:'2021-03-18',
+  //   xin: 500,
+  //   ri:'1,301',
+  //   zhou:'6,205',
+  //   yue:'18,892',
+  //   qi:'2841',
+  //   dan:'0:05:01',
+  // },
+  // {
+  //   key: '7',
+  //   time:'2021-03-18',
+  //   xin: 500,
+  //   ri:'1,301',
+  //   zhou:'6,205',
+  //   yue:'18,892',
+  //   qi:'2841',
+  //   dan:'0:05:01',
+  // },
+  // {
+  //   key: '8',
+  //   time:'2021-03-18',
+  //   xin: 500,
+  //   ri:'1,301',
+  //   zhou:'6,205',
+  //   yue:'18,892',
+  //   qi:'2841',
+  //   dan:'0:05:01',
+  // },
+  // {
+  //   key: '9',
+  //   time:'2021-03-18',
+  //   xin: 500,
+  //   ri:'1,301',
+  //   zhou:'6,205',
+  //   yue:'18,892',
+  //   qi:'2841',
+  //   dan:'0:05:01',
+  // },
+  // {
+  //   key: '10',
+  //   time:'2021-03-18',
+  //   xin: 500,
+  //   ri:'1,301',
+  //   zhou:'6,205',
+  //   yue:'18,892',
+  //   qi:'2841',
+  //   dan:'0:05:01',
+  // },
+];
+// const onChange = (pagination, filters, sorter, extra) => {
+//   console.log('params', pagination, filters, sorter, extra);
+// };
+
 export default function page() {
 
   return (
@@ -53,7 +199,7 @@ export default function page() {
               <h1>用户分析</h1>
               <div className="yhfx-header-1-1">
                 <span>数据指标
-                <i className='iconfont icon-wenhao-yuankuang' ></i>
+                  <i className='iconfont icon-wenhao-yuankuang' ></i>
                 </span>
                 <span> 2021-03-13</span>
               </div>
@@ -157,7 +303,7 @@ export default function page() {
           {/* 卡片五 */}
           <Card>
             <div className="div-foot">
-            <Tabs defaultActiveKey="1" items={items} onChange={onChange} />;
+              <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
             </div>
           </Card>
 
@@ -169,7 +315,13 @@ export default function page() {
           {/* 卡片七 */}
           <Card>
             <div className="div-bottom">
-
+              <Table 
+              columns={columns}
+              dataSource={data}
+              pagination={false}
+              >
+              </Table >
+              <Pagination defaultCurrent={6} total={500} />
             </div>
           </Card>
 
