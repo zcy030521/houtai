@@ -84,6 +84,25 @@ cursor: pointer; /* 鼠标滑入时变为小手图标 */
     align-items: center;
     justify-content: space-between;
 }
+.left-center-1{
+    width: 600px;
+    background-color: pink;
+    display: flex;
+    justify-content: space-between;
+}
+
+.left-center-1-1{
+    width: 200px;
+    background-color: orange;
+    display: flex;
+    justify-content: space-between;
+}
+
+.left-center-1-2{
+    width: 370px;
+    background-color: orange;
+}
+
 .peration-right-box{
     width: 100px;
     height: 150px;
@@ -93,7 +112,7 @@ cursor: pointer; /* 鼠标滑入时变为小手图标 */
 .right-1{
     width: 100%;
     height: 380px;
-    background-color: aqua;
+    /* background-color: aqua; */
 
 }
 
