@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import { UserOutlined, UnlockOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 import { Input, Button, message } from "antd";
+import Cookies from 'js-cookie';
 import Yzm from "./yzm";
 import fetch from "@/instannces/fetch"
 export default function App() {
@@ -19,7 +20,7 @@ export default function App() {
   };
   useEffect(() => {
 
-  },[codes,user,password])
+  }, [codes, user, password])
   return (
     <div className="body" style={{ display: "flex" }}>
       <div className="right">
@@ -57,8 +58,8 @@ export default function App() {
           <Input
             placeholder="密码"
             type="password"
-            prefix={<UnlockOutlined  />}
-            onInput={(e)=>{
+            prefix={<UnlockOutlined />}
+            onInput={(e) => {
               setpassword((e.target as HTMLInputElement).value);
             }}
           />
@@ -88,11 +89,8 @@ export default function App() {
           <Button
             style={{ width: "50%", margin: "0 auto", display: "block" }}
             onClick={async () => {
-              const res = await fetch("http://localhost:3100/login", {
+              const res = await fetch("/login", {
                 method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
                 body: JSON.stringify({
                   user: user,
                   password: password
@@ -103,8 +101,10 @@ export default function App() {
               }
               if (res.token) {
                 localStorage.setItem("token", res.token);
+                Cookies.set("token", res.token);
                 if (localStorage.getItem("code") === codes) {
                   router.push("/daohang");
+                  Cookies.remove("token")
                 } else {
                   info("验证码错误")
                 }
