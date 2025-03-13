@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import { UserOutlined, UnlockOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 import { Input, Button, message } from "antd";
+import Cookies from 'js-cookie';
 import Yzm from "./yzm";
 import fetch from "@/instannces/fetch"
 export default function App() {
@@ -100,8 +101,10 @@ export default function App() {
               }
               if (res.token) {
                 localStorage.setItem("token", res.token);
+                Cookies.set("token", res.token);
                 if (localStorage.getItem("code") === codes) {
                   router.push("/daohang");
+                  Cookies.remove("token")
                 } else {
                   info("验证码错误")
                 }
