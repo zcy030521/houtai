@@ -25,7 +25,8 @@ export default function App() {
         getcates()
       }
     })
-  };
+  }
+  
 
   const handleCancel = () => {
     setIsModalOpen(false);
