@@ -15,7 +15,7 @@ import axios from "../../../instannces/axios";
 import fetch from "@/instannces/fetch";
 import Uploads from "@/app/components/upload";
 import UploadExcel from "@/app/components/uploadexcel";
-
+import { Pagination } from "antd";
 interface ShopItem {
   _id: string;
   name: string;
@@ -35,11 +35,16 @@ interface CategoryOption {
 
 const ExcelReader = () => {
   const [imglist, setImglist] = useState<string[]>([]);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [total, setTotal] = useState(0);
   const [chear, serchchear] = useState({
     name: "",
     cate: "",
     description: "",
     price: "",
+    minprice: 0,
+    maxprice: 0,
   });
   const [shopdata, setShopdata] = useState<ShopItem[]>([]);
   const [optionlist, setOptionlist] = useState<CategoryOption[]>([]);
@@ -75,14 +80,20 @@ const ExcelReader = () => {
 
   const showModal = () => {
     setIsModalOpen(true);
+    setaddfrom({
+      name: "",
+      cate: "",
+      description: "",
+      price: "",
+      number: "",
+      img: [],
+    });
   };
   //获取商品数据
   function getdata() {
-    axios.get("/shoplist").then((res) => {
-      console.log(res);
-      console.log(res.data.data);
-
+    axios.get("/shoplist?page=" + page + "&limit=" + pageSize+"&name="+chear.name+"&cate="+chear.cate+"&description="+chear.description+"&minprice="+chear.minprice+"&maxprice="+chear.maxprice).then((res) => {
       let data = res.data.data;
+      setTotal(res.data.total);
       const arr: ShopItem[] = [];
       data.forEach((item: any) => {
         arr.push({
@@ -182,7 +193,8 @@ const ExcelReader = () => {
     });
     setIsModalOpen(true);
   };
-
+  console.log(chear);
+  
   // 更新商品
   const handleUpdate = async () => {
     try {
@@ -345,6 +357,23 @@ const ExcelReader = () => {
             onChange={(v) => serchchear({ ...chear, description: v })}
           />
         </p>
+        <p>价格区间：
+          <InputNumber
+            placeholder="最小价格"
+            style={{ width: 150 }}
+            value={chear.minprice}
+            onChange={(v) => serchchear({ ...chear, minprice: v })}
+          />
+          <InputNumber
+            placeholder="最大价格"
+            style={{ width: 150 }}
+            value={chear.maxprice}
+            onChange={(v) => serchchear({ ...chear, maxprice: v })}
+          />
+          {
+            chear.minprice > chear.maxprice ? <p style={{color: "red",fontSize: "12px"}}>最小价格不能大于最大价格</p> : null
+          }
+        </p>
         <p>
           <Button type="primary" onClick={getdata}>
             搜索
@@ -359,7 +388,16 @@ const ExcelReader = () => {
         dataSource={shopdata}
         rowKey="_id"
         loading={loading}
-        pagination={{ pageSize: 10 }}
+        pagination={false}
+      />
+      <Pagination
+        total={total}
+        pageSize={pageSize}
+        onChange={(page, pageSize) => {
+          setPage(page);
+          setPageSize(pageSize);
+          getdata();
+        }}
       />
 
       {/* 完善后的模态框 */}
