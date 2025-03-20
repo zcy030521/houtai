@@ -1,126 +1,150 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { message, Upload, Button } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
-axios.defaults.baseURL="http://localhost:3100"
+import { useEffect, useRef, useState } from "react"
+import SparkMD5 from 'spark-md5'
+import { Flex, Progress } from 'antd';
+export default function Index(props: any) {
+    const CHUNK_SIZE = 1024 * 1024*3//1m
+    const fileHash = useRef<string>('')
+    const fileName = useRef<string>('')
+    const [olading, setLoading] = useState(false)
+    const [progress, setProgress] = useState(0)
+    // 文件分片
+    const createChunks = (file: File) => {
+        let cur = 0
+        let thunks = []
+        while (cur < file.size) {
+            const blob = file.slice(cur, cur + CHUNK_SIZE)
+            thunks.push(blob)
+            cur += CHUNK_SIZE
+        }
+        return thunks
+    }
+ 
+    // 计算hash值函数
+    const calculateHash = (thunks: Blob[]) => {
+        return new Promise(resolve => {
+            // 第一个和最后一个切片全部参与计算
+            // 中间的切片只计算前面两个字节、中间两个字节、最后两个字节
+            const targets: Blob[] = [] //存储所有参与计算的切片
+            const spark = new SparkMD5.ArrayBuffer()
+ 
+            const fileReader = new FileReader()
+ 
+            thunks.forEach((h, index) => {
+                if (index === 0 || index === thunks.length - 1) {
+                    // 第一个和最后一个切片全部参与计算
+                    targets.push(h)
+                } else {
+                    targets.push(h.slice(0, 2)) //前面两个字节
+                    targets.push(h.slice(CHUNK_SIZE / 2, CHUNK_SIZE / 2 + 2)) //中间两个字节
+                    targets.push(h.slice(CHUNK_SIZE - 2, CHUNK_SIZE)) //最后两个字节
+                }
+            })
+ 
+            fileReader.readAsArrayBuffer(new Blob(targets))
+            fileReader.onload = (e) => {
+                // console.log((e.target as FileReader).result);
+ 
+                spark.append((e.target as FileReader).result as ArrayBuffer)
+                // console.log('hash:' + spark.end());
+                resolve(spark.end())
+            }
+        })
+    }
+ 
+    const mergeRequest = () => {
+        fetch('http://localhost:3100/merge', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                fileHash: fileHash.current,
+                fileName: fileName.current,
+                size: CHUNK_SIZE
+            })
+        }).then((res) => {
+            alert('合并成功')
+        })
+    }
+    // 上传分片
+    const uploadChunks = async (thunks: Blob[]) => {
+        const data = thunks.map((thunk, index) => {
+            return {
+                fileHash: fileHash.current,
+                thunkHash: fileHash.current + '-' + index,
+                fileName:fileName.current,
+                thunk,
+            }
+        })
+        const formDatas = data.map((item) => {
+            const formData = new FormData()
+            formData.append('fileHash', item.fileHash)
+            formData.append('thunkHash', item.thunkHash)
+            formData.append('thunk', item.thunk)
+            // console.log(item.fileHash);
+            return formData
+        })
+ 
+ 
+ 
+        // console.log(formDatas);
+        const max = 6 //最大并发请求数
+        let index = 0 //
+        const taskPool: any = [] //请求池
+        let totalUploaded = 0//已上传的字节数
+        const totalSize = thunks.reduce((sum, thunk) => sum + thunk.size, 0)//计算所有切片的总大小
+        while (index < formDatas.length) {
+            const currentIndex = index;
+            const currentThunk = thunks[currentIndex];
+            const task = fetch('http://localhost:3100/upload', {
+                method: 'POST',
+                body: formDatas[index],
+            }).then((res) => {
+                if (res.status == 200) {
+                    totalUploaded += currentThunk.size
+                    const uploadProgress = ((totalUploaded / totalSize) * 100).toFixed(2)
+                    setProgress(Number(uploadProgress))
+                }
+            })
+            taskPool.splice(taskPool.findIndex((item: any) => item === task))
+            taskPool.push(task)
+            if (taskPool.length === max) {
+                await Promise.race(taskPool)
+            }
+            index++
+        }
+        await Promise.all(taskPool)
+ 
+        // 通知服务器合并文件
+        mergeRequest()
+    }
+ 
+    const clickFn = async (e: any) => {
+        const files = e.target.files
+        console.log(files);
+        
+        if (!files) return
+        // 读取文件
+        // console.log(files[0]);
+        fileName.current = files[0].name
+ 
+        // 文件分片操作
+        const thunks = createChunks(files[0])
+        // console.log(thunks);
+        // hash计算
+        const hash = await calculateHash(thunks)
+        fileHash.current = hash as string
+ 
+        // console.log(hash);
+        // 上传分片
+        uploadChunks(thunks)
+    }
+    return <>
+        <input type="file" onChange={(e) => { clickFn(e) }} />
 
-// 分片大小：5MB
-const CHUNK_SIZE = 5 * 1024 * 1024;
+        {
+          progress!==0?<div><Progress percent={progress} status="active" /></div>:null
+        }
 
-interface FileChunk {
-  chunk: Blob;
-  hash: string;
-  index: number;
+    </>
 }
-
-const UploadExcel: React.FC = () => {
-  const [uploading, setUploading] = useState(false);
-
-  // 计算文件hash，用于秒传
-  const calculateHash = async (file: File): Promise<string> => {
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const hash = btoa(e.target?.result as string);
-        resolve(hash);
-      };
-      reader.readAsBinaryString(file);
-    });
-  };
-
-  // 文件分片
-  const createFileChunks = (file: File): FileChunk[] => {
-    const chunks: FileChunk[] = [];
-    let start = 0;
-    let index = 0;
-
-    while (start < file.size) {
-      const chunk = file.slice(start, start + CHUNK_SIZE);
-      chunks.push({
-        chunk,
-        hash: `${file.name}-${index}`,
-        index
-      });
-      start += CHUNK_SIZE;
-      index++;
-    }
-    return chunks;
-  };
-
-  // 上传分片
-  const uploadChunk = async (chunk: FileChunk, fileHash: string) => {
-    const formData = new FormData();
-    formData.append('chunk', chunk.chunk);
-    formData.append('hash', chunk.hash);
-    formData.append('fileHash', fileHash);
-    formData.append('index', chunk.index.toString());
-
-    try {
-      await axios.post('/api/upload/chunk', formData);
-    } catch (error) {
-      throw new Error(`分片 ${chunk.index} 上传失败`);
-    }
-  };
-
-  // 合并分片
-  const mergeChunks = async (fileHash: string, fileName: string, chunks: number) => {
-    try {
-      // 修改检查文件存在接口
-      const { data: { exists } } = await axios.post('/upload?action=check', {
-        fileHash
-      });
-      
-      // 修改分片上传接口
-      await axios.post('/upload?action=chunk', formData);
-      
-      // 修改合并分片接口
-      await axios.post('/upload?action=merge', {
-        fileHash,
-        fileName,
-        chunks
-      });
-      message.success('文件上传成功！');
-    } catch (error) {
-      message.error('文件合并失败！');
-    }
-  };
-
-  // 处理文件上传
-  const handleUpload = async (file: File) => {
-    setUploading(true);
-    try {
-      // 计算文件hash
-      const fileHash = await calculateHash(file);
-     
-
-      // 文件分片
-      const chunks = createFileChunks(file);
-      
-      // 并发上传分片
-      await Promise.all(
-        chunks.map(chunk => uploadChunk(chunk, fileHash))
-      );
-
-      // 合并分片
-      await mergeChunks(fileHash, file.name, chunks.length);
-      
-    } catch (error) {
-      message.error('上传失败！');
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  return (
-    <Upload
-      customRequest={({ file }) => handleUpload(file as File)}
-      showUploadList={false}
-    >
-      <Button icon={<UploadOutlined />} loading={uploading}>
-        {uploading ? '上传中...' : '选择文件'}
-      </Button>
-    </Upload>
-  );
-};
-
-export default UploadExcel;
