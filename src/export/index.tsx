@@ -17,6 +17,7 @@ interface Permission {
         level: number;
     };
 }
+//春春
 export const roledata = async () => {
     const res = await fetch("/rolelist", {
         method: "GET"
@@ -33,4 +34,12 @@ export const userAdd = async (user: string, password: string, phone: string) => 
             phone
         })
     })
+}
+//苏浚瑞
+export const jkdata = async () => {
+    const res = await fetch("/metrics", {
+        method: "GET"
+    });
+    const data = res
+    return data.data
 }
