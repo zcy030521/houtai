@@ -1,17 +1,21 @@
 "use client";
 import "./page.css";
-import React, { useState } from "react";
-import { UserOutlined, UnlockOutlined } from "@ant-design/icons";
+import React, { useState,useEffect } from "react";
+import { UserOutlined, UnlockOutlined,PhoneOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 import { Input, Button } from "antd";
-import Yzm from "./yzm.tsx";
-import axios from "../../instannces/axios";
+import Yzm from "@/app/register/yzm"
+import { userAdd } from "@/export/index"
 export default function App() {
   const [codes, setcodes] = useState<string>("");
   const [user, setsuer] = useState<string>("");
-  const [pwd, setpwd] = useState<string>("");
-
+  const [password, setpwd] = useState<string>("");
+  const [phone, setphone] = useState<string>("");
   const router = useRouter();
+  const regex = /^1[3-9]\d{9}$/;
+  useEffect(()=>{
+
+  },[user,password,phone,codes])
   return (
     <div className="body" style={{ display: "flex" }}>
       <div className="right">
@@ -55,6 +59,19 @@ export default function App() {
             }}
             prefix={<UnlockOutlined />}
           />
+          <Input
+            placeholder="手机号"
+            type="text"
+            onInput={(e) => {
+              setphone((e.target as HTMLInputElement).value);
+            }}
+            onBlur={() => {
+              if (!regex.test(phone)) {
+                alert("手机号格式错误，请输入正确的手机号！");
+              }
+            }}
+            prefix={<PhoneOutlined />}
+          />
           <div style={{ display: "flex", height: "40px" }}>
             <Input
               placeholder="验证码"
@@ -81,14 +98,17 @@ export default function App() {
           <Button
             style={{ width: "50%", margin: "0 auto", display: "block" }}
             onClick={() => {
-              if (codes == localStorage.getItem("code")) {
-                axios.post("/register", { user, pwd }).then((res) => {
-                  if (res.data.code == 200) {
-                    alert("注册成功");
-                    router.push("/login");
-                  }
-                });
+              if (
+                user === "" ||
+                password === "" ||
+                phone === "" ||
+                codes === ""
+              ) {
+                alert("请输入完整信息");
+                return;
               }
+              userAdd(user, password, phone);
+              router.push("/login");
             }}
           >
             注册
