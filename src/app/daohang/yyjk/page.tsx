@@ -144,10 +144,10 @@ export default function page() {
                     <span>全年</span>
                   </div>
                   <div className="left-center-1-2">
-                    <Space direction="vertical">
-                      <DatePicker />
-                      <RangePicker />
-                    </Space>
+                    {/* <Space direction="vertical"> */}
+                      {/* <DatePicker /> */}
+                      {/* <RangePicker /> */}
+                    {/* </Space> */}
                    
                   </div>
                 </div>
