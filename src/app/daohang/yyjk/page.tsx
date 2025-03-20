@@ -1,22 +1,17 @@
-// "use client";
-import React from 'react'
-import { Metadata } from 'next'
-import Operation from '../components/Operation'
-import './yyjk.css'
+"use client"
+import { jkdata } from "@/export/index"
+
 import { Card, DatePicker, Space } from "antd";
 const { RangePicker } = DatePicker;
-import './iconFont.css'
+import Operation from '../components/Operation'
+import './yyjk.css'
 
-
-
-export const metadata: Metadata = {
-  title: 'operation'
-}
-
-
-export default function page() {
+export default function yyjk() {
+const data = jkdata()
+  console.log('1111',data);
+  
   return (
-    <div>
+<div>
       <div className='operation-header'>
         {/* 左侧盒子布局 */}
         <div className="peration-left">
@@ -136,7 +131,7 @@ export default function page() {
           <div className="left-1">
             <Card>
               <div className='left-center'>
-                <p style={{ fontSize: '20px' }}>代办事项</p>
+                <p style={{ fontSize: '20px' }}>订单统计</p>
                 <div className='left-center-1' style={{ fontSize: '20px' }}>
                   <div className="left-center-1-1">
                     <span>本周</span>
@@ -144,11 +139,12 @@ export default function page() {
                     <span>全年</span>
                   </div>
                   <div className="left-center-1-2">
-                    {/* <Space direction="vertical"> */}
-                      {/* <DatePicker /> */}
+                    <Space direction="vertical">
+                      <DatePicker />
+
                       {/* <RangePicker /> */}
-                    {/* </Space> */}
-                   
+                    </Space>
+
                   </div>
                 </div>
               </div>
@@ -167,7 +163,7 @@ export default function page() {
           <div className="left-1">
             <Card>
               <div className='left-center'>
-                <p style={{ fontSize: '20px' }}>代办事项</p>
+                <p style={{ fontSize: '20px' }}>交易统计</p>
                 <div className='left-center-1' style={{ fontSize: '20px' }}>
                   <div className="left-center-1-1">
                     <span>本周</span>
@@ -175,27 +171,11 @@ export default function page() {
                     <span>全年</span>
                   </div>
                   <div className="left-center-1-2">
-                    {/* <Space direction="vertical" size={12}>
-                      <DatePicker
-                        showTime
-                        onChange={(value, dateString) => {
-                          console.log('Selected Time: ', value);
-                          console.log('Formatted Selected Time: ', dateString);
-                        }}
-                        onOk={onOk}
-                      />
-                      <RangePicker
-                        showTime={{
-                          format: 'HH:mm',
-                        }}
-                        format="YYYY-MM-DD HH:mm"
-                        onChange={(value, dateString) => {
-                          console.log('Selected Time: ', value);
-                          console.log('Formatted Selected Time: ', dateString);
-                        }}
-                        onOk={onOk}
-                      />
-                    </Space> */}
+                    <Space direction="vertical">
+                      <DatePicker />
+
+                      {/* <RangePicker /> */}
+                    </Space>
                   </div>
                 </div>
               </div>
@@ -434,8 +414,7 @@ export default function page() {
           </div>
         </div>
       </div>
-
+     
     </div>
-
   )
 }

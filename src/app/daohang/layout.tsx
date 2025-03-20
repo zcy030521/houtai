@@ -72,20 +72,6 @@ console.log(gits());
     }))
 
   ];
-      // ...routerlist
-    //   .filter((i) => i.level == 1)
-    //   .map((item) => ({
-    //     key: item.key,
-    //     label: item.label,
-    //     children: [
-    //       ...routerlist
-    //         .filter((i) => i.p_id?._id == item._id)
-    //         .map((item) => ({
-    //           key: item.key,
-    //           label: item.label,
-    //         })),
-    //     ],
-    //   }))
   const onClick: MenuProps["onClick"] = (e) => {
     Router.push(`/${e.key}`);
     console.log(`/${e.key}`, 11111);
