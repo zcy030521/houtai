@@ -1,24 +1,47 @@
 "use client"
 import { jkdata } from "@/export/index"
-
 import { Card, DatePicker, Space } from "antd";
 const { RangePicker } = DatePicker;
 import Operation from '../components/Operation'
 import './yyjk.css'
-
+import { useEffect, useState } from "react";
 export default function yyjk() {
-const data = jkdata()
-  console.log('1111',data);
-  
+
+  const data = jkdata()
+  console.log('1111', data);
+  const [date, setDate] = useState("data输一局")
+  const [currentTime,setCurrentTime] = useState<string>("")
+
+
+  //获取当日时间
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      setCurrentTime(now.toLocaleString('zh-CN', { 
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      }).replace(/\//g, '-'));
+    };
+    
+    updateTime();
+    // 设置定时更新（每秒更新一次）
+    const timer = setInterval(updateTime, 1000);
+    return () => clearInterval(timer);
+    // console.log('111111111111111111111111111111', date);
+  },)
   return (
-<div>
+    <div>
       <div className='operation-header'>
         {/* 左侧盒子布局 */}
         <div className="peration-left">
           {/* 左侧盒子1 */}
           <div className="left-1">
             <Card>
-              <span>今日实时数据：统计时间：2019-10-08 11：43:52</span>
+              <span>今日实时数据：统计时间：{currentTime}</span>
 
             </Card>
             <Card>
@@ -414,7 +437,7 @@ const data = jkdata()
           </div>
         </div>
       </div>
-     
+
     </div>
   )
 }
