@@ -1,28 +1,102 @@
 "use client"
 import { jkdata } from "@/export/index"
-
 import { Card, DatePicker, Space } from "antd";
 const { RangePicker } = DatePicker;
 import Operation from '../components/Operation'
 import './yyjk.css'
+import { useEffect, useState } from "react";
+
+const iconMap = {
+  '付款订单': <i className="iconfont icon-gongzuozhuangtailiu"></i>,
+  '付款金额(元)': <i className="iconfont icon-fukuanjine"></i>,
+  '活跃用户(今日)': <i className="iconfont icon-huoyueyonghu"></i>,
+  '转化率(%)': <i className="iconfont icon-zhuanhuashuai"></i>,
+  '客单价(元)': <i className="iconfont icon-kedanjia"></i>,
+  '新增用户(今日)': <i className="iconfont icon-xinzengyonghu"></i>
+};
 
 export default function yyjk() {
-const data = jkdata()
-  console.log('1111',data);
-  
+  const [data, setData] = useState([
+    { label: '付款订单', value: 231 },
+    { label: '付款金额(元)', value: 1000.21 },
+    { label: '活跃用户(今日)', value: 120311 },
+    { label: '转化率(%)', value: 0.53 },
+    { label: '客单价(元)', value: 32.00 },
+    { label: '新增用户(今日)', value: 122 }
+  ]);
+  // console.log('1111', data);
+  const [currentTime, setCurrentTime] = useState<string>("")
+
+  //实时数据
+  useEffect(() => {
+    const socket = new WebSocket('ws://localhost:3001');
+
+    socket.addEventListener('message', (event) => {
+        const newData = JSON.parse(event.data);
+        setData([
+            { label: '付款订单', value: newData.paymentOrders },
+            { label: '付款金额(元)', value: newData.paymentAmount },
+            { label: '活跃用户(今日)', value: newData.activeUsers },
+            { label: '转化率(%)', value: newData.conversionRate },
+            { label: '客单价(元)', value: newData.averageOrderValue },
+            { label: '新增用户(今日)', value: newData.newUsers }
+        ]);
+    });
+
+    return () => {
+        socket.close();
+    };
+}, []);
+  //获取当日时间
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      setCurrentTime(now.toLocaleString('zh-CN', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      }).replace(/\//g, '-'));
+    };
+
+    updateTime();
+    // 设置定时更新（每秒更新一次）
+    const timer = setInterval(updateTime, 1000);
+    return () => clearInterval(timer);
+    // console.log('111111111111111111111111111111', date);
+  },[])
   return (
-<div>
+    <div>
       <div className='operation-header'>
         {/* 左侧盒子布局 */}
         <div className="peration-left">
           {/* 左侧盒子1 */}
           <div className="left-1">
             <Card>
-              <span>今日实时数据：统计时间：2019-10-08 11：43:52</span>
+              <span>今日实时数据：统计时间：{currentTime}</span>
 
             </Card>
             <Card>
               <div className="card-1">
+                {data.map((item, index) => (
+                  <div key={index} className="left-1-1">
+                    <div className="left-1-2">
+                      {/* 这里假设图标先保留，实际使用可按需调整 */}
+                      {iconMap[item.label]}
+                      {/* <i className={`iconfont icon-${item.label.replace(/[()]/g, '').toLowerCase()}`}></i> */}
+                    </div>
+                    <div className="left-1-3">
+                      <p style={{ fontSize: '35px', marginLeft: '10px' }}>
+                        <b>{item.label.includes('金额') ? `￥${item.value}` : item.value}</b>
+                      </p>
+                      <p style={{ fontSize: '18px', marginLeft: '10px' }}>{item.label}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {/* <div className="card-1">
 
                 <div className="left-1-1">
                   <div className="left-1-2">
@@ -81,7 +155,7 @@ const data = jkdata()
                 </div>
 
 
-              </div>
+              </div> */}
               {/* <i className='iconfont icon-gongzuozhuangtailiu'></i> */}
             </Card>
 
@@ -414,7 +488,7 @@ const data = jkdata()
           </div>
         </div>
       </div>
-     
+
     </div>
   )
 }
