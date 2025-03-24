@@ -41,5 +41,5 @@ export const jkdata = async () => {
         method: "GET"
     });
     const data = res
-    return data.data
+    return data
 }
