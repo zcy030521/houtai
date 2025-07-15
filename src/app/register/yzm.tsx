@@ -11,7 +11,6 @@ const Captcha = () => {
   // 绘制验证码
   const draw = () => {
     const Canvas_DOM = cav.current;
-    
     const cav_width = (Canvas_DOM as any).clientWidth;
     const cav_height = (Canvas_DOM as any).clientHeight;
     const context = (Canvas_DOM as any).getContext('2d');

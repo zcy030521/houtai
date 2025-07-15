@@ -1,7 +1,7 @@
 "use client";
 import type { MenuProps } from "antd";
 import { useState, useEffect } from "react";
-import { Menu } from "antd";
+import { Menu,Spin  } from "antd";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { motion } from "framer-motion";
@@ -37,6 +37,7 @@ interface Item {
 
 export default function DHLayout({ children }: { children: React.ReactNode }) {
   const Router = useRouter();
+  const [loading, setLoading] = useState(true);
   // console.log(Router)
   const [routerlist, setRouterlist] = useState<Item[]>([]);
   // const [name,setName] = useState<string>("")
@@ -55,7 +56,6 @@ export default function DHLayout({ children }: { children: React.ReactNode }) {
   };
   const gits = (): Permission[] => {
     return routerlist.role?.permission || [];
-
   };
   // console.log(gits());
 
@@ -78,6 +78,9 @@ export default function DHLayout({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     routelist();
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
   }, []);
 
   return (
@@ -103,6 +106,7 @@ export default function DHLayout({ children }: { children: React.ReactNode }) {
           </div>
         </div>
         <div>{children}</div>
+        {loading ? <div className="cover"> <Spin /></div> : ""}
       </div>
     </div>
   );

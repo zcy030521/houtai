@@ -32,6 +32,6 @@ export async function middleware(req: { nextUrl: { clone?: any; pathname?: any; 
 
 // 可以通过 matcher 来限制中间件的应用范围
 export const config = {
-  matcher: ['/daohang', '/login',"/"], // 仅在需要的路径下生效
+  matcher: ['/daohang', '/login',"/","/daohang/yyjk"], // 仅在需要的路径下生效
 };
 

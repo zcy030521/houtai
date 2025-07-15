@@ -1,4 +1,4 @@
-"use client" // utils/fetch.ts
+"use client"
 
 interface FetchOptions extends RequestInit {
   authRequired?: boolean; // 是否需要认证
@@ -9,7 +9,6 @@ const BASE_URL = 'http://localhost:3100'; // 设定你的默认路径（基地�
 const fetchWrapper = async <T>(url: string, options: FetchOptions = {}): Promise<T> => {
   const { authRequired = true, ...fetchOptions } = options;
 
-  // const router = useRouter(); // 获取路由
 
   // 获取 Token 示例 (你可以根据实际情况从 localStorage 或 cookies 中获取)
   const token = authRequired ? localStorage.getItem('token') : null;
@@ -34,14 +33,15 @@ const fetchWrapper = async <T>(url: string, options: FetchOptions = {}): Promise
 
   try {
     const response = await fetch(fullUrl, finalOptions);
-
+    console.log(response);
+    
     // 判断响应状态码
-    if (!response.ok) {
+    if (!response.ok) {//true
       const error = await response.json();
       throw new Error(error.message || '请求失败');
     }
 
-    const data: T = await response.json(); // 假设返回的都是 JSON 格式的数据
+    const data: T = await response.json(); // 假设返回的都是 JSON 格式的数据   将json转换成javascript类型
     return data;
   } catch (error) {
     console.error('API 请求出错:', error);

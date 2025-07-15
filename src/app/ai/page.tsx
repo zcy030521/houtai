@@ -108,7 +108,8 @@ function Aiyemian() {
       const decoder = new TextDecoder();
       // 用于累加响应内容的变量
       let accumulatedResponse = '';
-
+      console.log(reader,decoder);
+      
       // 循环读取响应内容
       while (true) {
         const { value, done } = await reader.read();
@@ -119,14 +120,15 @@ function Aiyemian() {
         const chunk = decoder.decode(value);
         // 将解码后的内容按行分割
         const lines = chunk.split('\n');
-
+        console.log(chunk,lines);
+        
         // 遍历每一行
         for (const line of lines) {
           if (line.startsWith('data: ')) {
             try {
               // 解析数据，去除 'data: ' 前缀
               const data: ResponseData = JSON.parse(line.slice(6));
-
+              // console.log(data);
               // 如果数据包含错误信息，抛出错误
               if (data.error) {
                 throw new Error(data.error);
@@ -181,53 +183,6 @@ function Aiyemian() {
       e.preventDefault();
       // 调用发送消息的函数
       handleSendMessage();
-    }
-  };
-
-  // 开始语音识别的函数
-  const startListening = () => {
-    // 检查浏览器是否支持语音识别 API
-    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-      // 创建语音识别实例
-      const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
-      const recognition = new SpeechRecognition();
-
-      // 设置语音识别参数
-      recognition.continuous = false; // 只识别一次
-      recognition.interimResults = false; // 只返回最终结果
-      // 根据当前语言设置识别语言
-      recognition.lang = currentLanguage === '中文' ? 'zh-CN' : 'en-US';
-
-      // 开始语音识别
-      recognition.start();
-      // 设置语音识别状态为 true
-      setIsListening(true);
-
-      // 处理语音识别结果
-      recognition.onresult = (event: any) => {
-        // 获取识别结果的文本
-        const transcript = event.results[0][0].transcript;
-        // 将识别结果设置到输入框
-        setInputMessage(transcript);
-        // 设置语音识别状态为 false
-        setIsListening(false);
-      };
-
-      // 处理语音识别错误
-      recognition.onerror = (event: any) => {
-        // 打印错误信息并设置语音识别状态为 false
-        console.error('语音识别错误:', event.error);
-        setIsListening(false);
-      };
-
-      // 处理语音识别结束事件
-      recognition.onend = () => {
-        // 设置语音识别状态为 false
-        setIsListening(false);
-      };
-    } else {
-      // 浏览器不支持语音识别，弹出提示框
-      alert('您的浏览器不支持语音识别功能');
     }
   };
 
@@ -334,18 +289,6 @@ function Aiyemian() {
           placeholder={currentLanguage === '中文' ? '输入消息...' : 'Type a message...'}
           rows="2"
         />
-        <button
-          className={`voice-btn ${isListening ? 'listening' : ''}`}
-          onClick={startListening}
-          disabled={isLoading}
-        >
-          {/* 根据语音识别状态显示不同的按钮文本或图标 */}
-          {isListening ? (
-            currentLanguage === '中文' ? '正在听...' : 'Listening...'
-          ) : (
-            <i className="fas fa-microphone"></i>
-          )}
-        </button>
         <button
           onClick={() => handleSendMessage()}
           disabled={isLoading || !inputMessage.trim()}

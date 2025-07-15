@@ -25,7 +25,8 @@ export default function App() {
     <div className="body" style={{ display: "flex" }}>
       <div className="right">
         <div style={{ position: "relative", top: "40%", left: "10%" }}>
-          <p style={{ fontSize: "50px", color: "white" }}>社区团购</p>          <p
+          <p style={{ fontSize: "50px", color: "white" }}>社区团购</p>          
+          <p
             style={{ fontSize: "30px", color: "white", letterSpacing: "15px" }}
           >
             Axlab社区团管理中心
@@ -103,8 +104,7 @@ export default function App() {
                 localStorage.setItem("token", res.token);
                 Cookies.set("token", res.token);
                 if (localStorage.getItem("code") === codes) {
-                  router.push("/daohang");
-                  Cookies.remove("token")
+                  router.push("/daohang/yyjk");
                 } else {
                   info("验证码错误")
                 }
